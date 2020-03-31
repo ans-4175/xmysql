@@ -42,7 +42,7 @@ var onXapiInitialized = new Promise(function(resolve, reject) {
     var mysqlPool = mysql.createPool(mysqlConfig);
     var xapi = new Xapi(mysqlConfig, mysqlPool, app);
     xapi.init(function(err, results) {
-      app.listen(3000);
+      app.listen(mysqlConfig.port);
       resolve();
     });
   } catch (err) {

@@ -75,3 +75,6 @@ mongod
 *.ntvs*
 *.njsproj
 *.sln
+
+storage/*
+!.gitignore
