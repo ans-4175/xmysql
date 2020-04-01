@@ -27,22 +27,22 @@ var onXapiInitialized = new Promise(function(resolve, reject) {
     });
 
     var mysqlConfig = {
-      host: '127.0.0.1',
-      port: 3306,
-      database: 'sheets',
-      user: 'root',
-      password: 'bismillah',
-      apiPrefix: "/api/",
-      ipAddress: "localhost",
-      portNumber: 3000,
-      ignoreTables: [],
-      storageFolder: __dirname
+      host: process.env.DATABASE_HOST || "127.0.0.1",
+      port: parseInt(process.env.DATABASE_PORT) || 3306,
+      database: process.env.DATABASE_NAME || 'db_name',
+      user: process.env.DATABASE_USER || 'root',
+      password: process.env.DATABASE_PASS || 'admin123',
+      apiPrefix: process.env.API_PREFIX || "/api/",
+      ipAddress: process.env.HOST || "127.0.0.1",
+      portNumber: parseInt(process.env.PORT_APP) || 80,
+      ignoreTables: (process.env.IGNORE_TABLES) ? process.env.IGNORE_TABLES.split(',') : [],
+      storageFolder: process.env.STORAGE_FOLDER || `${__dirname}/storage`
     };
 
     var mysqlPool = mysql.createPool(mysqlConfig);
     var xapi = new Xapi(mysqlConfig, mysqlPool, app);
     xapi.init(function(err, results) {
-      app.listen(mysqlConfig.port);
+      app.listen(mysqlConfig.portNumber);
       resolve();
     });
   } catch (err) {
